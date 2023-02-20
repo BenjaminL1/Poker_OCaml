@@ -1,2 +1,2 @@
 # cs3110-final-project
-heehee
+Richard Lin (rl659)
