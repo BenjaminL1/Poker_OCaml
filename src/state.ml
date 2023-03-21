@@ -1,6 +1,6 @@
 open Card
 open Player
-open Features
+(* open Features *)
 
 (* exception Too_many_cards *)
 
