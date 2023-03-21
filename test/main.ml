@@ -1,5 +1,7 @@
 open OUnit2
 open Deck.Card
+open Deck.Player
+open Deck.Functions
 
 let make_deck_test (name : string) (expected_output : card list) : test =
   name >:: fun _ ->
@@ -65,5 +67,62 @@ let card_tests =
       ];
   ]
 
-let suite = "test suite for A2" >::: List.flatten [ card_tests ]
+let deal_cards_test (name : string) (num_players : int)
+    (expected_output : player list) : test =
+  name >:: fun _ ->
+  (* the [printer] tells OUnit how to convert the output to a string *)
+  assert_equal expected_output
+    (deal_cards [] num_players (make_deck [] (0, 0)))
+    ~printer:string_of_player_list
+
+let functions_tests =
+  [
+    deal_cards_test "2 players" 2
+      [
+        (* player 1 *)
+        [ { suit = Spade; value = Two }; { suit = Spade; value = Three } ];
+        (* player 2 *)
+        [ { suit = Spade; value = Four }; { suit = Spade; value = Five } ];
+      ];
+    deal_cards_test "5 players" 5
+      [
+        (* player 1 *)
+        [ { suit = Spade; value = Two }; { suit = Spade; value = Three } ];
+        (* player 2 *)
+        [ { suit = Spade; value = Four }; { suit = Spade; value = Five } ];
+        (* player 3 *)
+        [ { suit = Spade; value = Six }; { suit = Spade; value = Seven } ];
+        (* player 4 *)
+        [ { suit = Spade; value = Eight }; { suit = Spade; value = Nine } ];
+        (* player 5 *)
+        [ { suit = Spade; value = Ten }; { suit = Spade; value = J } ];
+      ];
+    deal_cards_test "10 players" 10
+      [
+        (* player 1 *)
+        [ { suit = Spade; value = Two }; { suit = Spade; value = Three } ];
+        (* player 2 *)
+        [ { suit = Spade; value = Four }; { suit = Spade; value = Five } ];
+        (* player 3 *)
+        [ { suit = Spade; value = Six }; { suit = Spade; value = Seven } ];
+        (* player 4 *)
+        [ { suit = Spade; value = Eight }; { suit = Spade; value = Nine } ];
+        (* player 5 *)
+        [ { suit = Spade; value = Ten }; { suit = Spade; value = J } ];
+        (* player 6 *)
+        [ { suit = Spade; value = Q }; { suit = Spade; value = K } ];
+        (* player 7 *)
+        [ { suit = Spade; value = A }; { suit = Club; value = Two } ];
+        (* player 8 *)
+        [ { suit = Club; value = Three }; { suit = Club; value = Four } ];
+        (* player 9 *)
+        [ { suit = Club; value = Five }; { suit = Club; value = Six } ];
+        (* player 10 *)
+        [ { suit = Club; value = Seven }; { suit = Club; value = Eight } ];
+      ];
+  ]
+
+let suite =
+  "test suite for A2" >::: List.flatten [ card_tests; functions_tests ]
+
 let _ = run_test_tt_main suite

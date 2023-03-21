@@ -52,7 +52,7 @@ let rec string_of_card_lst_helper (lst : card list) : string =
   | [] -> ""
 
 let string_of_card_lst (lst : card list) : string =
-  "[ " ^ string_of_card_lst_helper lst ^ " ]"
+  "[\n" ^ string_of_card_lst_helper lst ^ "]"
 
 let suit_of_num (num : int) =
   match num with
