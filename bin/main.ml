@@ -5,23 +5,25 @@ open State
 
 let clear () = match Sys.command "clear" with _ -> ()
 
-let pass_player () =
+let rec pass_player () =
   match read_line () with
   | line ->
       if line = "next" then clear ()
       else if line = "exit" then Stdlib.exit 0
-      else
+      else (
         print_endline
-          "invalid input: enter 'next' to proceed, 'exit' to exit the program"
+          "invalid input: enter 'next' to proceed, 'exit' to exit the program";
+        pass_player ())
 
-let next_command () =
+let rec next_command () =
   match read_line () with
   | line ->
       if line = "next" then ()
       else if line = "exit" then Stdlib.exit 0
-      else
+      else (
         print_endline
-          "invalid input: enter 'next' to proceed, 'exit' to exit the program"
+          "invalid input: enter 'next' to proceed, 'exit' to exit the program";
+        next_command ())
 
 let rec reveal_player_cards (p_list : player list) (pn : int) org_pn =
   if pn = 0 then ()
