@@ -1,7 +1,7 @@
 open Card
 open Player
 
-exception Too_many_cards
+(* exception Too_many_cards *)
 
 (* state of the board, the board is a card option list
    of length 5 initialized with all None*)
@@ -14,6 +14,15 @@ type state = {
   pot : int;
   raised : int;
 }
+
+let init_state =
+  {
+    players = [];
+    deck = Card.make_deck [] (0, 0);
+    board = [];
+    pot = 0;
+    raised = 0;
+  }
 
 let raise state amount =
   {
