@@ -1,5 +1,6 @@
 open Card
 open Player
+open Features
 
 (* exception Too_many_cards *)
 
@@ -15,10 +16,10 @@ type state = {
   raised : int;
 }
 
-let init_state =
+let init_state n =
   {
-    players = [];
-    deck = Card.make_deck [] (0, 0);
+    players = List.init n (fun _ -> Player.init_player);
+    deck = Card.shuffle (Card.make_deck [] (0, 0));
     board = [];
     pot = 0;
     raised = 0;
