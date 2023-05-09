@@ -1,7 +1,7 @@
 open OUnit2
 open Deck.Card
 open Deck.Player
-open Deck.Functions
+open Deck.Features
 
 let make_deck_test (name : string) (expected_output : card list) : test =
   name >:: fun _ ->
