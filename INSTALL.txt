@@ -1,0 +1,1 @@
+To install and build system, run make build and then make play.
