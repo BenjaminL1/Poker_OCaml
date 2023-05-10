@@ -93,3 +93,6 @@ let shuffle d =
   let nd = List.map (fun c -> (Random.bits (), c)) d in
   let sond = List.sort compare nd in
   List.map snd sond
+
+let rec shuffle_mult (deck : card list) (number : int) =
+  match number with 0 -> deck | _ -> shuffle_mult (shuffle deck) (number - 1)

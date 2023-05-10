@@ -1,9 +1,9 @@
-# dune build
+# dune exec ./bin/main.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root: /Users/benjaminli/3110/finalproject
 # Auto-detected concurrency: 8
-$ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh/g3s56g8x28n_nry37x5hjhnr0000gn/T/dune_465082_output
+$ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh/g3s56g8x28n_nry37x5hjhnr0000gn/T/dune_0fa772_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -114,15 +114,5 @@ $ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/state.ml) > _build/default/src/.Deck.objs/state.ml.d
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.Deck.objs/byte -no-alias-deps -opaque -open Deck -o src/.Deck.objs/byte/deck__State.cmo -c -impl src/state.ml)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/Deck.cma src/.Deck.objs/byte/deck.cmo src/.Deck.objs/byte/deck__Card.cmo src/.Deck.objs/byte/deck__Player.cmo src/.Deck.objs/byte/deck__Features.cmo src/.Deck.objs/byte/deck__State.cmo)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I bin/.main.eobjs/byte -I src/.Deck.objs/byte -no-alias-deps -opaque -o bin/.main.eobjs/byte/dune__exe__Main.cmi -c -intf bin/main.mli)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I test/.main.eobjs/byte -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2 -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2/advanced -I /Users/benjaminli/.opam/cs3110-2023sp/lib/seq -I /Users/benjaminli/.opam/cs3110-2023sp/lib/stdlib-shims -I src/.Deck.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmi -c -intf test/main.mli)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.Deck.objs/byte -I src/.Deck.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Deck -o src/.Deck.objs/native/deck__State.cmx -c -impl src/state.ml)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2 -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2/advanced -I /Users/benjaminli/.opam/cs3110-2023sp/lib/seq -I /Users/benjaminli/.opam/cs3110-2023sp/lib/stdlib-shims -I src/.Deck.objs/byte -I src/.Deck.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
 $ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I src/.Deck.objs/byte -I src/.Deck.objs/native -intf-suffix .ml -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/Deck.cmxa src/.Deck.objs/native/deck.cmx src/.Deck.objs/native/deck__Card.cmx src/.Deck.objs/native/deck__Player.cmx src/.Deck.objs/native/deck__Features.cmx src/.Deck.objs/native/deck__State.cmx)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I src -o src/Deck.cmxs src/Deck.cmxa)
 $ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe src/Deck.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o test/main.exe src/Deck.cmxa /Users/benjaminli/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ocaml -I /Users/benjaminli/.opam/cs3110-2023sp/lib/ocaml /Users/benjaminli/.opam/cs3110-2023sp/lib/stdlib-shims/stdlib_shims.cmxa /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2/advanced/oUnitAdvanced.cmxa /Users/benjaminli/.opam/cs3110-2023sp/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)

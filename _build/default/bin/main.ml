@@ -24,8 +24,9 @@ let rec raise_action (state : state) (player_num : int) () =
     print_endline "can't raise that much!";
     raise_action state player_num ())
 
+(* player num is 1 for player 1 *)
 let call_action (state : state) (player_num : int) () =
-  let amount = state.raised in
+  let amount = state.raised - (List.nth state.players (player_num - 1)).bet in
   call state amount player_num
 
 let rec raise_call (state : state) (player_num : int) () =
@@ -75,7 +76,9 @@ let rec game_loop (state : state) (players : int) (iter : int) =
     else (
       print_endline
         ("Current bet is " ^ string_of_int state.raised
-       ^ ". Raise, call, or fold?");
+       ^ ". Raise, fold, or call "
+        ^ string_of_int (state.raised - (List.nth state.players iter).bet)
+        ^ "?");
       match raise_call state (iter + 1) () with
       | Fold t -> transition t players iter
       | Raise t -> transition t players iter
@@ -85,23 +88,34 @@ let rec game_loop (state : state) (players : int) (iter : int) =
 and transition (state : state) (players : int) (iter : int) =
   clear ();
 
-  if only_active_player state players iter (iter + 1) then ()
+  if
+    only_active_player state.players
+      (next_active_player state players ((iter + 1) mod players))
+      0
+  then
+    let new_state =
+      winner state players
+        (next_active_player state players ((iter + 1) mod players))
+    in
+    game_loop new_state players new_state.sblind
   else (
     print_endline "Type 'next' to reveal your cards";
-    next_command ();
-    if
-      round_finished_check state.players state.raised
-      && (iter + 1) mod players = state.last_raised
-    then
-      let new_state =
-        match state.board with
-        | PreFlop -> make_flop state
-        | Flop _ -> make_turn state
-        | Turn _ -> make_river state
-        | River _ -> showdown state
-      in
-      game_loop new_state players new_state.sblind
-    else game_loop state players (next_active_player state players (iter + 1)))
+    next_command ());
+  if
+    round_finished_check state players iter
+    && (iter + 1) mod players = state.last_raised
+  then
+    let new_state =
+      match state.board with
+      | PreFlop -> make_flop state
+      | Flop _ -> make_turn state
+      | Turn _ -> make_river state
+      | River _ -> showdown state
+    in
+    game_loop new_state players new_state.sblind
+  else
+    game_loop state players
+      (next_active_player state players ((iter + 1) mod players))
 
 let rec startgame (pn : int) =
   match read_line () with
