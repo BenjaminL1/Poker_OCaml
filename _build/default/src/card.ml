@@ -89,6 +89,7 @@ let rec make_deck (acc : card list) (iter : int * int) : card list =
       else if value_iter = 12 then make_deck (acc @ [ card ]) (suit_iter + 1, 0)
       else make_deck (acc @ [ card ]) (suit_iter, value_iter + 1)
 
+(*TODO: reimplement s.t. it shuffles randomly*)
 let shuffle d =
   let nd = List.map (fun c -> (Random.bits (), c)) d in
   let sond = List.sort compare nd in

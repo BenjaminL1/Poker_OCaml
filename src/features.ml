@@ -8,7 +8,14 @@ let rec init_deal_cards (acc : player list) (num_players : int)
   if num_players > 0 then
     init_deal_cards
       (acc
-      @ [ { cards = [ List.hd deck; List.hd (List.tl deck) ]; chips = 1000 } ])
+      @ [
+          {
+            cards = [ List.hd deck; List.hd (List.tl deck) ];
+            chips = 1000;
+            bet = 0;
+            active = true;
+          };
+        ])
       (num_players - 1)
       (List.tl (List.tl deck))
   else acc
@@ -22,6 +29,8 @@ let rec deal (players : player list) (acc : player list) (num_players : int)
           {
             cards = [ List.hd deck; List.hd (List.tl deck) ];
             chips = Player.num_chips (List.hd players);
+            bet = 0;
+            active = true;
           };
         ])
       (num_players - 1)

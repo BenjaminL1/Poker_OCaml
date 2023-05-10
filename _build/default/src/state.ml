@@ -1,5 +1,6 @@
 open Card
 open Player
+(* open Features *)
 
 (* exception Too_many_cards *)
 
@@ -15,30 +16,71 @@ type state = {
   raised : int;
 }
 
+type action = Raise of state | Call of state | Fold of state
+
 let init_state n =
+  let shuf_deck = Card.shuffle (Card.make_deck [] (0, 0)) in
   {
-    players = List.init n (fun _ -> Player.init_player);
-    deck = Card.shuffle (Card.make_deck [] (0, 0));
+    players = Features.init_deal_cards [] n shuf_deck;
+    deck = shuf_deck;
     board = [];
     pot = 0;
     raised = 0;
   }
 
-let raise state amount =
+let rec round_finished_check (players : player list) (amount : int) =
+  match players with
+  | [] -> true
+  | h :: t -> if h.bet <> amount then false else round_finished_check t amount
+
+(* player_num starts at 1 for the first player in the list *)
+let rec player_bet (players : player list) (amount : int) (player_num : int) =
+  match players with
+  | [] -> failwith "not a player"
+  | h :: t when player_num <> 1 -> h :: player_bet t amount (player_num - 1)
+  | h :: t when player_num = 1 ->
+      {
+        cards = h.cards;
+        chips = h.chips - amount;
+        bet = amount;
+        active = h.active;
+      }
+      :: t
+  | _ -> failwith "player_bet input error"
+
+let raise state amount player_num =
   {
-    players = state.players;
+    players = player_bet state.players amount player_num;
     deck = state.deck;
     board = state.board;
     pot = state.pot + amount;
     raised = amount;
   }
 
-let call state amount =
+let call state amount player_num =
   {
-    players = state.players;
+    players = player_bet state.players amount player_num;
     deck = state.deck;
     board = state.board;
     pot = state.pot + amount;
+    raised = amount;
+  }
+
+let rec fold_helper (players : player list) (player_num : int) =
+  match players with
+  | [] -> failwith "player_num too high"
+  | h :: t when player_num <> 1 -> h :: fold_helper t (player_num - 1)
+  | h :: t when player_num = 1 ->
+      { cards = h.cards; chips = h.chips; bet = h.bet; active = not h.active }
+      :: t
+  | _ -> failwith "player_bet input error"
+
+let fold (state : state) (player_num : int) =
+  {
+    players = fold_helper state.players player_num;
+    deck = state.deck;
+    board = state.board;
+    pot = state.pot;
     raised = 0;
   }
 

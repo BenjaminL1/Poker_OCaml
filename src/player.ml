@@ -1,8 +1,8 @@
 open Card
 
-type player = { cards : card list; chips : int }
+type player = { cards : card list; chips : int; bet : int; active : bool }
 
-let init_player = { cards = []; chips = 1000 }
+let init_player = { cards = []; chips = 1000; bet = 0; active = true }
 let num_chips player = player.chips
 
 let rec string_of_player_lst_helper (lst : player list) : string =
