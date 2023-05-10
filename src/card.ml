@@ -21,10 +21,10 @@ exception BadNum of int
 
 let string_of_suit (suit : suit) : string =
   match suit with
-  | Spade -> "Spade"
-  | Club -> "Club"
-  | Heart -> "Heart"
-  | Diamond -> "Diamond"
+  | Spade -> "Spades"
+  | Club -> "Clubs"
+  | Heart -> "Hearts"
+  | Diamond -> "Diamonds"
 
 let string_of_value (value : value) : string =
   match value with
@@ -37,14 +37,13 @@ let string_of_value (value : value) : string =
   | Eight -> "Eight"
   | Nine -> "Nine"
   | Ten -> "Ten"
-  | J -> "J"
-  | Q -> "Q"
-  | K -> "K"
-  | A -> "A"
+  | J -> "Jack"
+  | Q -> "Queen"
+  | K -> "King"
+  | A -> "Ace"
 
 let string_of_card (card : card) : string =
-  "{ suit = " ^ string_of_suit card.suit ^ "; value = "
-  ^ string_of_value card.value ^ " }"
+  "[ " ^ string_of_value card.value ^ " of " ^ string_of_suit card.suit ^ " ]"
 
 let rec string_of_card_lst_helper (lst : card list) : string =
   match lst with
