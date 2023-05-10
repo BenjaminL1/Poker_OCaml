@@ -1,9 +1,9 @@
-# dune exec ./bin/main.exe
+# dune build
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root: /Users/benjaminli/3110/finalproject
 # Auto-detected concurrency: 8
-$ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh/g3s56g8x28n_nry37x5hjhnr0000gn/T/dune_0fa772_output
+$ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh/g3s56g8x28n_nry37x5hjhnr0000gn/T/dune_2f41bc_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -115,4 +115,9 @@ $ /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/kh
 #      }
 #  }
 $ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I src/.Deck.objs/byte -I src/.Deck.objs/native -intf-suffix .ml -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
-$ (cd _build/default && /Users/benjaminli/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe src/Deck.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+> File "bin/main.ml", line 113, characters 17-35:
+> 113 |       (new_state.find_action_starts new_state players new_state.sblind)
+>                        ^^^^^^^^^^^^^^^^^^
+> Error: This expression has type state
+>        There is no field find_action_starts within type state
+[2]

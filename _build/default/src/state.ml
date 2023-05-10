@@ -31,6 +31,27 @@ type state = {
 
 type action = Raise of state | Call of state | Fold of state
 
+let string_of_board (board : board) =
+  match board with
+  | PreFlop -> "Preflop"
+  | Flop f -> string_of_card_lst f
+  | Turn t -> string_of_card_lst t
+  | River r -> string_of_card_lst r
+
+let string_of_state (state : state) =
+  "players: "
+  ^ string_of_player_list state.players
+  ^ ", /n" ^ "deck: "
+  ^ string_of_card_lst state.deck
+  ^ ", /n" ^ "board: "
+  ^ string_of_board state.board
+  ^ ", /n" ^ "pot: " ^ string_of_int state.pot ^ ", /n" ^ "raised: "
+  ^ string_of_int state.raised ^ ", /n" ^ "bblind: "
+  ^ string_of_int state.bblind ^ ", /n" ^ "sblind: "
+  ^ string_of_int state.sblind ^ ", /n" ^ "last_raised: "
+  ^ string_of_int state.last_raised
+  ^ ", /n" ^ "round: " ^ string_of_int state.round
+
 let rec set_blinds (state : state) (playerlist : player list) (players : int)
     (iter : int) =
   match playerlist with
@@ -126,6 +147,10 @@ let call state amount player_num =
     round = state.round;
   }
 
+let rec find_action_starts (state : state) (players : int) (iter : int) =
+  if (List.nth state.players iter).active then iter
+  else find_action_starts state players ((iter + 1) mod players)
+
 let rec fold_helper (players : player list) (player_num : int) =
   match players with
   | [] -> failwith "player_num too high"
@@ -161,7 +186,8 @@ let make_flop (state : state) =
     raised = 0;
     bblind = state.bblind;
     sblind = state.sblind;
-    last_raised = state.sblind;
+    last_raised =
+      find_action_starts state (List.length state.players) state.sblind;
     round = state.round;
   }
 
@@ -179,7 +205,8 @@ let make_turn (state : state) =
     raised = 0;
     bblind = state.bblind;
     sblind = state.sblind;
-    last_raised = state.sblind;
+    last_raised =
+      find_action_starts state (List.length state.players) state.sblind;
     round = state.round;
   }
 
@@ -197,7 +224,8 @@ let make_river (state : state) =
     raised = 0;
     bblind = state.bblind;
     sblind = state.sblind;
-    last_raised = state.sblind;
+    last_raised =
+      find_action_starts state (List.length state.players) state.sblind;
     round = state.round;
   }
 
@@ -225,18 +253,18 @@ let winner (state : state) (players : int) (player_num : int) =
       raised = 0;
       bblind = (state.bblind + 1) mod players;
       sblind = (state.sblind + 1) mod players;
-      last_raised = state.sblind;
+      last_raised = (state.bblind + 1) mod players;
       round = state.round + 1;
     }
   in
   {
     players = set_blinds new_state new_state.players players 0;
-    deck = Card.shuffle_mult (Card.make_deck [] (0, 0)) (state.round + 1);
-    board = make_river_helper state.deck state.board;
-    pot = state.pot;
+    deck = new_state.deck;
+    board = new_state.board;
+    pot = new_state.pot;
     raised = 0;
-    bblind = (state.bblind + 1) mod players;
-    sblind = (state.sblind + 1) mod players;
-    last_raised = state.sblind;
-    round = state.round + 1;
+    bblind = new_state.bblind;
+    sblind = new_state.sblind;
+    last_raised = new_state.bblind;
+    round = state.round;
   }

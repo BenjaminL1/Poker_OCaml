@@ -101,10 +101,7 @@ and transition (state : state) (players : int) (iter : int) =
   else (
     print_endline "Type 'next' to reveal your cards";
     next_command ());
-  if
-    round_finished_check state players iter
-    && (iter + 1) mod players = state.last_raised
-  then
+  if round_finished_check state players iter then
     let new_state =
       match state.board with
       | PreFlop -> make_flop state
@@ -112,7 +109,8 @@ and transition (state : state) (players : int) (iter : int) =
       | Turn _ -> make_river state
       | River _ -> showdown state
     in
-    game_loop new_state players new_state.sblind
+    game_loop new_state players
+      (new_state.find_action_starts new_state players new_state.sblind)
   else
     game_loop state players
       (next_active_player state players ((iter + 1) mod players))
