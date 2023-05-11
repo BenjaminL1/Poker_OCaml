@@ -61,14 +61,18 @@ let description (state : state) () =
   | River f -> print_endline ("Board : " ^ string_of_card_lst f)
 
 let rec game_loop (state : state) (players : int) (iter : int) =
-  if iter = players then failwith "loop failed"
-  else if (List.nth state.players iter).active then (
+  print_endline (string_of_state state);
+  action state players iter
+
+and action (state : state) (players : int) (iter : int) =
+  if (List.nth state.players iter).active then (
     print_endline ("Here are the cards for player " ^ string_of_int (iter + 1));
     print_endline (string_of_card_lst (List.nth state.players iter).cards);
     description state ();
-
-    if state.raised = 0 then (
-      print_endline "Raise, check, or fold?";
+    if state.raised = 0 || (List.nth state.players iter).bet = state.raised then (
+      print_endline
+        ("Current bet is " ^ string_of_int state.raised
+       ^ ". Raise, check, or call?");
       match raise_check state (iter + 1) () with
       | Fold t -> transition t players iter
       | Raise t -> transition t players iter
@@ -87,17 +91,13 @@ let rec game_loop (state : state) (players : int) (iter : int) =
 
 and transition (state : state) (players : int) (iter : int) =
   clear ();
-
-  if
-    only_active_player state.players
-      (next_active_player state players ((iter + 1) mod players))
-      0
-  then
+  if only_active_player state.players iter (iter + 1) then (
     let new_state =
       winner state players
         (next_active_player state players ((iter + 1) mod players))
     in
-    game_loop new_state players new_state.sblind
+    print_endline "winner";
+    game_loop new_state players new_state.sblind)
   else (
     print_endline "Type 'next' to reveal your cards";
     next_command ());
@@ -110,7 +110,7 @@ and transition (state : state) (players : int) (iter : int) =
       | River _ -> showdown state
     in
     game_loop new_state players
-      (new_state.find_action_starts new_state players new_state.sblind)
+      (find_action_starts new_state players new_state.sblind)
   else
     game_loop state players
       (next_active_player state players ((iter + 1) mod players))

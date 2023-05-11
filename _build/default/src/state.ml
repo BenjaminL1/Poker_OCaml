@@ -41,21 +41,22 @@ let string_of_board (board : board) =
 let string_of_state (state : state) =
   "players: "
   ^ string_of_player_list state.players
-  ^ ", /n" ^ "deck: "
-  ^ string_of_card_lst state.deck
-  ^ ", /n" ^ "board: "
+  (* ^ ", \n" ^ "deck: "
+     ^ string_of_card_lst state.deck *)
+  ^ ", \n"
+  ^ "board: "
   ^ string_of_board state.board
-  ^ ", /n" ^ "pot: " ^ string_of_int state.pot ^ ", /n" ^ "raised: "
-  ^ string_of_int state.raised ^ ", /n" ^ "bblind: "
-  ^ string_of_int state.bblind ^ ", /n" ^ "sblind: "
-  ^ string_of_int state.sblind ^ ", /n" ^ "last_raised: "
+  ^ ", \n" ^ "pot: " ^ string_of_int state.pot ^ ", \n" ^ "raised: "
+  ^ string_of_int state.raised ^ ", \n" ^ "bblind: "
+  ^ string_of_int state.bblind ^ ", \n" ^ "sblind: "
+  ^ string_of_int state.sblind ^ ", \n" ^ "last_raised: "
   ^ string_of_int state.last_raised
-  ^ ", /n" ^ "round: " ^ string_of_int state.round
+  ^ ", \n" ^ "round: " ^ string_of_int state.round
 
 let rec set_blinds (state : state) (playerlist : player list) (players : int)
     (iter : int) =
   match playerlist with
-  | h :: t when iter = state.sblind ->
+  | h :: t when iter = state.bblind ->
       {
         cards = h.cards;
         chips = h.chips - bigBlind;
@@ -75,16 +76,29 @@ let rec set_blinds (state : state) (playerlist : player list) (players : int)
   | [] -> []
 
 let init_state n =
-  let shuf_deck = Card.shuffle (Card.make_deck [] (0, 0)) in
+  let shuf_state =
+    let shuf_deck = Card.shuffle (Card.make_deck [] (0, 0)) in
+    {
+      players = Features.init_deal_cards [] n shuf_deck;
+      deck = shuf_deck;
+      board = PreFlop;
+      pot = 30;
+      raised = 20;
+      bblind = 1;
+      sblind = 0;
+      last_raised = 2 mod n;
+      round = 1;
+    }
+  in
   {
-    players = Features.init_deal_cards [] n shuf_deck;
-    deck = shuf_deck;
+    players = set_blinds shuf_state shuf_state.players n 0;
+    deck = shuf_state.deck;
     board = PreFlop;
-    pot = 0;
-    raised = 0;
+    pot = 30;
+    raised = 20;
     bblind = 1;
     sblind = 0;
-    last_raised = 1;
+    last_raised = 2 mod n;
     round = 1;
   }
 
@@ -97,14 +111,15 @@ let rec next_active_player (state : state) (players : int) (iter : int) =
   else next_active_player state players ((iter + 1) mod players)
 
 (* player_num is 0 for player 1 *)
-let rec only_active_player (players : player list) (player_num : int)
-    (iter : int) =
-  match players with
-  | [] -> true
-  | h :: _ when iter <> player_num ->
-      if h.active then false
-      else only_active_player players player_num (iter + 1)
-  | _ -> only_active_player players player_num (iter + 1)
+let rec only_active_player (players : player list) (current : int) (iter : int)
+    =
+  if current = iter then true
+  else if (List.nth players (iter mod List.length players)).active then false
+  else only_active_player players current ((iter + 1) mod List.length players)
+
+let rec find_action_starts (state : state) (players : int) (iter : int) =
+  if (List.nth state.players iter).active then iter
+  else find_action_starts state players ((iter + 1) mod players)
 
 (* player_num starts at 1 for the first player in the list *)
 let rec player_bet (players : player list) (amount : int) (player_num : int) =
@@ -140,16 +155,12 @@ let call state amount player_num =
     deck = state.deck;
     board = state.board;
     pot = state.pot + amount;
-    raised = amount;
+    raised = state.raised;
     bblind = state.bblind;
     sblind = state.sblind;
     last_raised = state.last_raised;
     round = state.round;
   }
-
-let rec find_action_starts (state : state) (players : int) (iter : int) =
-  if (List.nth state.players iter).active then iter
-  else find_action_starts state players ((iter + 1) mod players)
 
 let rec fold_helper (players : player list) (player_num : int) =
   match players with
@@ -172,6 +183,13 @@ let fold (state : state) (player_num : int) =
     round = state.round;
   }
 
+let rec reset_bets (players : player list) =
+  match players with
+  | h :: t ->
+      { cards = h.cards; chips = h.chips; bet = 0; active = h.active }
+      :: reset_bets t
+  | [] -> []
+
 let rec make_flop_helper (deck : card list) (iter : int) =
   match iter with
   | 3 -> []
@@ -179,7 +197,7 @@ let rec make_flop_helper (deck : card list) (iter : int) =
 
 let make_flop (state : state) =
   {
-    players = state.players;
+    players = reset_bets state.players;
     deck = List.tl (List.tl (List.tl state.deck));
     board = Flop (make_flop_helper state.deck 0);
     pot = state.pot;
@@ -198,7 +216,7 @@ let make_turn_helper (deck : card list) (board : board) =
 
 let make_turn (state : state) =
   {
-    players = state.players;
+    players = reset_bets state.players;
     deck = List.tl state.deck;
     board = make_turn_helper state.deck state.board;
     pot = state.pot;
@@ -217,7 +235,7 @@ let make_river_helper (deck : card list) (board : board) =
 
 let make_river (state : state) =
   {
-    players = state.players;
+    players = reset_bets state.players;
     deck = List.tl state.deck;
     board = make_river_helper state.deck state.board;
     pot = state.pot;

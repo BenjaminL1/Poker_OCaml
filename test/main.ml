@@ -2,6 +2,7 @@ open OUnit2
 open Deck.Card
 open Deck.Player
 open Deck.Features
+open Deck.State
 
 let make_deck_test (name : string) (expected_output : card list) : test =
   name >:: fun _ ->
@@ -74,6 +75,22 @@ let init_deal_cards_test (name : string) (num_players : int)
   assert_equal expected_output
     (init_deal_cards [] num_players (make_deck [] (0, 0)))
     ~printer:string_of_player_list
+
+let player_bet_test (name : string) (state : state) (amount : int)
+    (player_num : int) (expected_output : player list) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (player_bet state.players amount player_num)
+    ~printer:string_of_player_list
+
+let raise_test (name : string) (state : state) (amount : int) (player_num : int)
+    (expected_output : state) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (raise state amount player_num)
+    ~printer:string_of_state
+
+let state1 = init_state
 
 let functions_tests =
   [
