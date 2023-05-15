@@ -1,0 +1,56 @@
+(lang dune 3.6)
+(name Deck)
+(sections (lib .) (libexec .) (doc ../../doc/Deck))
+(files
+ (lib
+  (Deck.a
+   Deck.cma
+   Deck.cmxa
+   META
+   card.ml
+   deck.cmi
+   deck.cmt
+   deck.cmx
+   deck.ml
+   deck__Card.cmi
+   deck__Card.cmt
+   deck__Card.cmx
+   deck__Features.cmi
+   deck__Features.cmt
+   deck__Features.cmx
+   deck__Player.cmi
+   deck__Player.cmt
+   deck__Player.cmx
+   deck__State.cmi
+   deck__State.cmt
+   deck__State.cmx
+   dune-package
+   features.ml
+   opam
+   player.ml
+   state.ml))
+ (libexec (Deck.cmxs))
+ (doc (README.md)))
+(library
+ (name Deck)
+ (kind normal)
+ (archives (byte Deck.cma) (native Deck.cmxa))
+ (plugins (byte Deck.cma) (native Deck.cmxs))
+ (native_archives Deck.a)
+ (main_module_name Deck)
+ (modes byte native)
+ (modules
+  (wrapped
+   (main_module_name Deck)
+   (modules
+    ((name Card) (obj_name deck__Card) (visibility public) (impl))
+    ((name Features) (obj_name deck__Features) (visibility public) (impl))
+    ((name Player) (obj_name deck__Player) (visibility public) (impl))
+    ((name State) (obj_name deck__State) (visibility public) (impl)))
+   (alias_module
+    (name Deck)
+    (obj_name deck)
+    (visibility public)
+    (kind alias)
+    (impl))
+   (wrapped true))))

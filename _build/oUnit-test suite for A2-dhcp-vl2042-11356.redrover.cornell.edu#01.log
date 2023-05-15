@@ -1,0 +1,21 @@
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:0:test deck creation.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:0:test deck creation is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:0:test deck creation.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:2:5 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:2:5 players is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:2:5 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:3:7 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:3:7 players is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:3:7 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:4:10 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:4:10 players is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:4:10 players.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:5:bet test 1.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:5:bet test 1 is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:5:bet test 1.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:7:raise test 1.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:7:raise test 1 is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:7:raise test 1.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Start test test suite for A2:8:blind test 1.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: Test test suite for A2:8:blind test 1 is successful.
+2023-05-15T07:03:27+00:00 dhcp-vl2042-11356.redrover.cornell.edu#01 I: End test test suite for A2:8:blind test 1.
