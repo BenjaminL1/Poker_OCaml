@@ -1,6 +1,0 @@
-description = ""
-requires = ""
-archive(byte) = "Deck.cma"
-archive(native) = "Deck.cmxa"
-plugin(byte) = "Deck.cma"
-plugin(native) = "Deck.cmxs"

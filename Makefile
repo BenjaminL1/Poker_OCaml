@@ -24,12 +24,12 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	rm -f finalproj.zip
-	zip -r finalproj.zip . -x@exclude.lst
+	rm -f ms3_code.zip
+	zip -r ms3_code.zip .
 
 clean:
 	dune clean
-	rm -f finalproj.zip
+	rm -f ms3_code.zip
 
 doc:
 	dune build @doc
