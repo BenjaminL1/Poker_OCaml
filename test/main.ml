@@ -90,7 +90,170 @@ let raise_test (name : string) (state : state) (amount : int) (player_num : int)
     (raise state amount player_num)
     ~printer:string_of_state
 
-let state1 = init_state
+let call_test (name : string) (state : state) (amount : int) (player_num : int)
+    (expected_output : state) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (call state amount player_num)
+    ~printer:string_of_state
+
+let blind_test (name : string) (state : state) (players : int)
+    (expected_output : player list) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (set_blinds state state.players players 0)
+    ~printer:string_of_player_list
+
+(* let state1 = init_state 3 *)
+let phys_deck = make_deck [] (0, 0)
+
+let blind_less_players =
+  [
+    {
+      cards = [ { suit = Spade; value = Two }; { suit = Heart; value = Ten } ];
+      chips = 1000;
+      bet = 0;
+      active = true;
+    };
+    {
+      cards = [ { suit = Heart; value = Four }; { suit = Heart; value = Nine } ];
+      chips = 1000;
+      bet = 0;
+      active = true;
+    };
+    {
+      cards = [ { suit = Diamond; value = A }; { suit = Club; value = A } ];
+      chips = 1000;
+      bet = 0;
+      active = true;
+    };
+  ]
+
+let phys_player_list =
+  [
+    {
+      cards = [ { suit = Spade; value = Two }; { suit = Heart; value = Ten } ];
+      chips = 990;
+      bet = 10;
+      active = true;
+    };
+    {
+      cards = [ { suit = Heart; value = Four }; { suit = Heart; value = Nine } ];
+      chips = 980;
+      bet = 20;
+      active = true;
+    };
+    {
+      cards = [ { suit = Diamond; value = A }; { suit = Club; value = A } ];
+      chips = 1000;
+      bet = 0;
+      active = true;
+    };
+  ]
+
+let bet_player_list =
+  [
+    {
+      cards = [ { suit = Spade; value = Two }; { suit = Heart; value = Ten } ];
+      chips = 990;
+      bet = 10;
+      active = true;
+    };
+    {
+      cards = [ { suit = Heart; value = Four }; { suit = Heart; value = Nine } ];
+      chips = 980;
+      bet = 20;
+      active = true;
+    };
+    {
+      cards = [ { suit = Diamond; value = A }; { suit = Club; value = A } ];
+      chips = 900;
+      bet = 100;
+      active = true;
+    };
+  ]
+
+let call_player_list =
+  [
+    {
+      cards = [ { suit = Spade; value = Two }; { suit = Heart; value = Ten } ];
+      chips = 990;
+      bet = 10;
+      active = true;
+    };
+    {
+      cards = [ { suit = Heart; value = Four }; { suit = Heart; value = Nine } ];
+      chips = 980;
+      bet = 20;
+      active = true;
+    };
+    {
+      cards = [ { suit = Diamond; value = A }; { suit = Club; value = A } ];
+      chips = 980;
+      bet = 20;
+      active = true;
+    };
+  ]
+
+let blinds_less_state =
+  {
+    players = blind_less_players;
+    deck = phys_deck;
+    board = PreFlop;
+    pot = 30;
+    raised = 20;
+    bblind = 1;
+    sblind = 0;
+    last_raised = 2;
+    round = 0;
+  }
+
+let phy_state =
+  {
+    players = phys_player_list;
+    deck = phys_deck;
+    board = PreFlop;
+    pot = 30;
+    raised = 20;
+    bblind = 1;
+    sblind = 0;
+    last_raised = 2;
+    round = 0;
+  }
+
+let raise_state =
+  {
+    players = bet_player_list;
+    deck = phys_deck;
+    board = PreFlop;
+    pot = 130;
+    raised = 100;
+    bblind = 1;
+    sblind = 0;
+    last_raised = 2;
+    round = 0;
+  }
+
+let call_state =
+  {
+    players = call_player_list;
+    deck = phys_deck;
+    board = PreFlop;
+    pot = 50;
+    raised = 20;
+    bblind = 1;
+    sblind = 0;
+    last_raised = 2;
+    round = 0;
+  }
+
+let state_tests =
+  [
+    player_bet_test "bet test 1" phy_state 100 3 bet_player_list;
+    raise_test "raise test 1" phy_state 100 3 raise_state;
+    call_test "raise test 1" phy_state 20 3 call_state;
+    blind_test "blind test 1" blinds_less_state 3 phys_player_list;
+  ]
 
 let functions_tests =
   [
@@ -238,6 +401,7 @@ let functions_tests =
   ]
 
 let suite =
-  "test suite for A2" >::: List.flatten [ card_tests; functions_tests ]
+  "test suite for A2"
+  >::: List.flatten [ card_tests; functions_tests; state_tests ]
 
 let _ = run_test_tt_main suite

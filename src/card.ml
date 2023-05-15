@@ -96,3 +96,6 @@ let shuffle d =
 
 let rec shuffle_mult (deck : card list) (number : int) =
   match number with 0 -> deck | _ -> shuffle_mult (shuffle deck) (number - 1)
+
+let rec discard (deck : card list) (iter : int) =
+  match iter with 0 -> deck | _ -> discard (List.tl deck) (iter - 1)
