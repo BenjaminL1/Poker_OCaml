@@ -90,9 +90,11 @@ let rec make_deck (acc : card list) (iter : int * int) : card list =
 
 (*TODO: reimplement s.t. it shuffles randomly*)
 let shuffle d =
-  let nd = List.map (fun c -> (Random.bits (), c)) d in
-  let sond = List.sort compare nd in
-  List.map snd sond
+  Random.self_init ();
+  let nd = List.map (fun x -> (Random.bits (), x)) d in
+  let temp = List.sort compare nd in
+  (* snd is built in function that returns the second component of a pair*)
+  List.map snd temp
 
 let rec shuffle_mult (deck : card list) (number : int) =
   match number with 0 -> deck | _ -> shuffle_mult (shuffle deck) (number - 1)
