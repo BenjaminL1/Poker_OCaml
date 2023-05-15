@@ -134,12 +134,84 @@ let card_tests =
             { suit = Diamond; value = K };
             { suit = Diamond; value = A };
           ]) );
+    ( "two shuffled decks not equal" >:: fun _ ->
+      assert_equal false
+        (shuffle (make_deck [] (0, 0)) = shuffle (make_deck [] (0, 0))) );
+    ( "shuffle deck length 52" >:: fun _ ->
+      assert_equal 52 (List.length (shuffle (make_deck [] (0, 0)))) );
+    ( "mult shuffle" >:: fun _ ->
+      assert_equal false
+        (shuffle_mult (make_deck [] (0, 0)) 5 = shuffle (make_deck [] (0, 0)))
+    );
   ]
 
 let deck_tests =
   [
     ( "discard" >:: fun _ ->
       assert_equal 51 (List.length (discard (make_deck [] (0, 0)) 1)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 46
+        (List.length (discard (discard (make_deck [] (0, 0)) 1) 5)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 20
+        (List.length (discard (discard (make_deck [] (0, 0)) 1) 31)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 45
+        (List.length (discard (discard (make_deck [] (0, 0)) 1) 6)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 50 (List.length (discard (make_deck [] (0, 0)) 2)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 49 (List.length (discard (make_deck [] (0, 0)) 3)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 48 (List.length (discard (make_deck [] (0, 0)) 4)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 45 (List.length (discard (make_deck [] (0, 0)) 7)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 40 (List.length (discard (make_deck [] (0, 0)) 12)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 35 (List.length (discard (make_deck [] (0, 0)) 17)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 30 (List.length (discard (make_deck [] (0, 0)) 22)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 29 (List.length (discard (make_deck [] (0, 0)) 23)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 28 (List.length (discard (make_deck [] (0, 0)) 24)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 27 (List.length (discard (make_deck [] (0, 0)) 25)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 26 (List.length (discard (make_deck [] (0, 0)) 26)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 25 (List.length (discard (make_deck [] (0, 0)) 27)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 24 (List.length (discard (make_deck [] (0, 0)) 28)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 23 (List.length (discard (make_deck [] (0, 0)) 29)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 22 (List.length (discard (make_deck [] (0, 0)) 30)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 21 (List.length (discard (make_deck [] (0, 0)) 31)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 20 (List.length (discard (make_deck [] (0, 0)) 32)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 19 (List.length (discard (make_deck [] (0, 0)) 33)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 18 (List.length (discard (make_deck [] (0, 0)) 34)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 17 (List.length (discard (make_deck [] (0, 0)) 35)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 16 (List.length (discard (make_deck [] (0, 0)) 36)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 15 (List.length (discard (make_deck [] (0, 0)) 37)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 14 (List.length (discard (make_deck [] (0, 0)) 38)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 13 (List.length (discard (make_deck [] (0, 0)) 39)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 12 (List.length (discard (make_deck [] (0, 0)) 40)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 11 (List.length (discard (make_deck [] (0, 0)) 41)) );
+    ( "discard" >:: fun _ ->
+      assert_equal 10 (List.length (discard (make_deck [] (0, 0)) 42)) );
   ]
 
 let init_deal_cards_test (name : string) (num_players : int)
