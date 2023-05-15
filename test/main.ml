@@ -318,6 +318,63 @@ let functions_tests =
           active = true;
         };
       ];
+    init_deal_cards_test "7 players" 7
+      [
+        (* player 1 *)
+        {
+          cards =
+            [ { suit = Spade; value = Two }; { suit = Spade; value = Three } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 2 *)
+        {
+          cards =
+            [ { suit = Spade; value = Four }; { suit = Spade; value = Five } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 3 *)
+        {
+          cards =
+            [ { suit = Spade; value = Six }; { suit = Spade; value = Seven } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 4 *)
+        {
+          cards =
+            [ { suit = Spade; value = Eight }; { suit = Spade; value = Nine } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 5 *)
+        {
+          cards = [ { suit = Spade; value = Ten }; { suit = Spade; value = J } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 6 *)
+        {
+          cards =
+            [ { suit = Heart; value = Eight }; { suit = Heart; value = Nine } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+        (* player 7 *)
+        {
+          cards = [ { suit = Club; value = Ten }; { suit = Club; value = J } ];
+          chips = 1000;
+          bet = 0;
+          active = true;
+        };
+      ];
     init_deal_cards_test "10 players" 10
       [
         (* player 1 *)
