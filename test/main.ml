@@ -1,3 +1,14 @@
+(* Our test plan was to test each of the basic functions that we developed for
+    our poker game. Test cases were developed using both black box and glass box
+    strategies. For each functionality, we wrote test cases and slowly built our
+   way up, starting from the deck and leading to each function of poker. We
+   utilized OUnit tests to cover the basic tests of our game, and the remainder
+   of the bugs were sorted out by simply playing games of poker. In theory, our
+   test plan would eliminate most bugs, since by ensuring basic functionality,
+   and running many test games to ensure that more complex functionality works,
+   our system would be correct. However, there are certainly some bugs that we
+   were not able to resolve. *)
+
 open OUnit2
 open Deck.Card
 open Deck.Player
@@ -66,6 +77,69 @@ let card_tests =
         { suit = Diamond; value = K };
         { suit = Diamond; value = A };
       ];
+    ( "shuffled deck not equal" >:: fun _ ->
+      assert_equal false
+        (shuffle (make_deck [] (0, 0))
+        = [
+            { suit = Spade; value = Two };
+            { suit = Spade; value = Three };
+            { suit = Spade; value = Four };
+            { suit = Spade; value = Five };
+            { suit = Spade; value = Six };
+            { suit = Spade; value = Seven };
+            { suit = Spade; value = Eight };
+            { suit = Spade; value = Nine };
+            { suit = Spade; value = Ten };
+            { suit = Spade; value = J };
+            { suit = Spade; value = Q };
+            { suit = Spade; value = K };
+            { suit = Spade; value = A };
+            { suit = Club; value = Two };
+            { suit = Club; value = Three };
+            { suit = Club; value = Four };
+            { suit = Club; value = Five };
+            { suit = Club; value = Six };
+            { suit = Club; value = Seven };
+            { suit = Club; value = Eight };
+            { suit = Club; value = Nine };
+            { suit = Club; value = Ten };
+            { suit = Club; value = J };
+            { suit = Club; value = Q };
+            { suit = Club; value = K };
+            { suit = Club; value = A };
+            { suit = Heart; value = Two };
+            { suit = Heart; value = Three };
+            { suit = Heart; value = Four };
+            { suit = Heart; value = Five };
+            { suit = Heart; value = Six };
+            { suit = Heart; value = Seven };
+            { suit = Heart; value = Eight };
+            { suit = Heart; value = Nine };
+            { suit = Heart; value = Ten };
+            { suit = Heart; value = J };
+            { suit = Heart; value = Q };
+            { suit = Heart; value = K };
+            { suit = Heart; value = A };
+            { suit = Diamond; value = Two };
+            { suit = Diamond; value = Three };
+            { suit = Diamond; value = Four };
+            { suit = Diamond; value = Five };
+            { suit = Diamond; value = Six };
+            { suit = Diamond; value = Seven };
+            { suit = Diamond; value = Eight };
+            { suit = Diamond; value = Nine };
+            { suit = Diamond; value = Ten };
+            { suit = Diamond; value = J };
+            { suit = Diamond; value = Q };
+            { suit = Diamond; value = K };
+            { suit = Diamond; value = A };
+          ]) );
+  ]
+
+let deck_tests =
+  [
+    ( "discard" >:: fun _ ->
+      assert_equal 51 (List.length (discard (make_deck [] (0, 0)) 1)) );
   ]
 
 let init_deal_cards_test (name : string) (num_players : int)
@@ -361,15 +435,14 @@ let functions_tests =
         };
         (* player 6 *)
         {
-          cards =
-            [ { suit = Heart; value = Eight }; { suit = Heart; value = Nine } ];
+          cards = [ { suit = Spade; value = Q }; { suit = Spade; value = K } ];
           chips = 1000;
           bet = 0;
           active = true;
         };
         (* player 7 *)
         {
-          cards = [ { suit = Club; value = Ten }; { suit = Club; value = J } ];
+          cards = [ { suit = Spade; value = A }; { suit = Club; value = Two } ];
           chips = 1000;
           bet = 0;
           active = true;
@@ -458,7 +531,7 @@ let functions_tests =
   ]
 
 let suite =
-  "test suite for A2"
-  >::: List.flatten [ card_tests; functions_tests; state_tests ]
+  "test suite for project"
+  >::: List.flatten [ card_tests; functions_tests; state_tests; deck_tests ]
 
 let _ = run_test_tt_main suite
